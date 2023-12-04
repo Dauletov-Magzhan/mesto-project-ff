@@ -17,7 +17,7 @@ function createCard(data, deleteCallback) {
     cardElement.querySelector('.card__title').textContent = data.name;
 
     const deleteButton = cardElement.querySelector('.card__delete-button');
-    deleteButton.addEventListener('click', deleteCard);
+    deleteButton.addEventListener('click', deleteCallback);
 
     return cardElement;
 };
@@ -30,9 +30,6 @@ function deleteCard(evt) {
 const placesList = document.querySelector('.places__list');
 
 initialCards.forEach(function (cardData) {
-    const card = createCard(cardData, function (card) {
-        deleteCard(card);
-    });
-
+    const card = createCard(cardData, deleteCard);
     placesList.append(card);
 });
