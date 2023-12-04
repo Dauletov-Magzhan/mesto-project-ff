@@ -9,7 +9,7 @@
 // @todo: Вывести карточки на страницу
 
 function createCard(data, deleteCallback) {
-    const cardTemplate = document.querySelector('#card-template').content;
+    const cardTemplate = document.querySelector('#card-template').content.querySelector('.places__item');
     const cardElement = cardTemplate.cloneNode(true);
     
     cardElement.querySelector('.card__image').src = data.link;
@@ -17,17 +17,15 @@ function createCard(data, deleteCallback) {
     cardElement.querySelector('.card__title').textContent = data.name;
 
     const deleteButton = cardElement.querySelector('.card__delete-button');
-    deleteButton.addEventListener('click', function () {
-        deleteCallback(cardElement);
-    });
+    deleteButton.addEventListener('click', deleteCard);
 
     return cardElement;
-}
+};
 
-function deleteCard(deleteCard) {
-    const placesItem = document.querySelector('.places__item')
+function deleteCard(evt) { 
+    const placesItem = evt.target.closest('.places__item');
     placesItem.remove();
-}
+};
 
 const placesList = document.querySelector('.places__list');
 
