@@ -7,6 +7,8 @@
 // @todo: Функция удаления карточки
 
 // @todo: Вывести карточки на страницу
+import { initialCards } from "./scripts/cards.js";
+import './pages/index.css';
 
 function createCard(data, deleteCallback) {
     const cardTemplate = document.querySelector('#card-template').content.querySelector('.places__item');
