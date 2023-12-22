@@ -25,50 +25,50 @@ function deleteCard(evt) {
 };
 
 
-const profileEditBtn = document.querySelector('.profile__edit-button')
-const popupTypeEdit = document.querySelector('.popup_type_edit')
+const profileEditBtn = document.querySelector('.profile__edit-button');
+const popupTypeEdit = document.querySelector('.popup_type_edit');
 profileEditBtn.addEventListener('click', function () {
-    openModal(popupTypeEdit)
-})
+    openModal(popupTypeEdit);
+});
 
-const profileAddBtn = document.querySelector('.profile__add-button')
-const popupTypeNewCard = document.querySelector('.popup_type_new-card')
+const profileAddBtn = document.querySelector('.profile__add-button');
+const popupTypeNewCard = document.querySelector('.popup_type_new-card');
 profileAddBtn.addEventListener('click', function () {
-    openModal(popupTypeNewCard)
-})
+    openModal(popupTypeNewCard);
+});
 
-const popupCloseBtn = document.querySelectorAll('.popup__close')
+const popupCloseBtn = document.querySelectorAll('.popup__close');
 popupCloseBtn.forEach(function (button) {
-    const popupClose = button.closest('.popup')
+    const popupClose = button.closest('.popup');
     button.addEventListener('click', function() {
-        closeModal(popupClose)
-    })
-})
+        closeModal(popupClose);
+    });
+});
 
 
-const formElement = document.forms['edit-profile']
-const nameInput = formElement.elements.name
-const jobInput = formElement.elements.description
+const formElement = document.forms['edit-profile'];
+const nameInput = formElement.elements.name;
+const jobInput = formElement.elements.description;
 
-const displayNameElement = document.querySelector('.profile__title')
-const displayJobElement = document.querySelector('.profile__description')
+const displayNameElement = document.querySelector('.profile__title');
+const displayJobElement = document.querySelector('.profile__description');
 
-nameInput.value = displayNameElement.textContent
-jobInput.value = displayJobElement.textContent
+nameInput.value = displayNameElement.textContent;
+jobInput.value = displayJobElement.textContent;
 
 function handleFormSubmit(evt) {
-    evt.preventDefault()
+    evt.preventDefault();
 
-    const newName = nameInput.value
-    const newJob = jobInput.value
+    const newName = nameInput.value;
+    const newJob = jobInput.value;
 
-    displayNameElement.textContent = newName
-    displayJobElement.textContent = newJob
+    displayNameElement.textContent = newName;
+    displayJobElement.textContent = newJob;
     
-    closeModal(popupTypeEdit)
-}
+    closeModal(popupTypeEdit);
+};
 
-formElement.addEventListener('submit', handleFormSubmit)
+formElement.addEventListener('submit', handleFormSubmit);
 
 function addNewCard(evt) {
     evt.preventDefault();
@@ -87,13 +87,13 @@ function addNewCard(evt) {
   
     closeModal(popupTypeNewCard);
     cardForm.reset(); 
-  }
+  };
 
 const cardForm = document.forms['new-place'];
 cardForm.addEventListener('submit', addNewCard, );
 
 
-const cardImage = document.querySelectorAll('.card__image')
+const cardImage = document.querySelectorAll('.card__image');
 cardImage.forEach(function (image) {
     image.addEventListener('click', function () {
         const cardUrl = image.src;
