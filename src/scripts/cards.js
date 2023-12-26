@@ -25,7 +25,7 @@ export const initialCards = [
     }
 ];
 
-export function createCard(data, deleteCallback) {
+export function createCard(data, deleteCallback, likeCallback) {
   const cardTemplate = document.querySelector('#card-template').content.querySelector('.places__item');
   const cardElement = cardTemplate.cloneNode(true);
   
@@ -37,9 +37,17 @@ export function createCard(data, deleteCallback) {
   deleteButton.addEventListener('click', deleteCallback);
 
   const likeButton = cardElement.querySelector('.card__like-button');
-  likeButton.addEventListener('click', function () {
-      likeButton.classList.toggle('card__like-button_is-active');
-  });
+  likeButton.addEventListener('click', likeCallback);
 
   return cardElement;
 };
+
+export function likeCard(evt) {
+  evt.target.classList.toggle('card__like-button_is-active');
+}
+
+export function deleteCard(evt) { 
+  const placesItem = evt.target.closest('.places__item');
+  placesItem.remove();
+};
+

@@ -22,15 +22,3 @@ function mouseHandler (evt) {
     closeModal(evt.target);
   };
 };
-
-export function openImagePopup(url, caption) {
-  const imagePopup = document.querySelector('.popup_type_image');
-  const popupImage = imagePopup.querySelector('.popup__image');
-  const popupCaption = imagePopup.querySelector('.popup__caption');
-
-  popupImage.src = url;
-  popupImage.alt = caption;
-  popupCaption.textContent = caption;
-
-  openModal(imagePopup);
-};
