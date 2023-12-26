@@ -11,14 +11,14 @@ export function closeModal (popup) {
 };
 
 function keyHandler (evt) {
-  if(evt.key === 'Escape') {
-    const popup = document.querySelector('.popup_is-opened');
-    closeModal(popup);
-  };
+    if(evt.key === 'Escape') {
+      const popup = document.querySelector('.popup_is-opened');
+      closeModal(popup);
+    };
 };
 
 function mouseHandler (evt) {
-  if (evt.target.classList.contains('popup_is-opened')) {
-    closeModal(evt.target);
-  };
+    if (evt.target.classList.contains('popup_is-opened')) {
+      closeModal(evt.target);
+    };
 };
