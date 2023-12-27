@@ -1,4 +1,5 @@
 import { openModal } from "./modal.js";
+import { openImagePopup } from "../index.js";
 
 export function createCard(data, deleteCallback, likeCallback, openImageCallback) {
     const cardTemplate = document.querySelector('#card-template').content.querySelector('.places__item');
@@ -29,16 +30,4 @@ export function createCard(data, deleteCallback, likeCallback, openImageCallback
   export function deleteCard(evt) { 
     const placesItem = evt.target.closest('.places__item');
     placesItem.remove();
-  };
-  
-  export function openImagePopup(url, caption) {
-    const imagePopup = document.querySelector('.popup_type_image');
-    const popupImage = imagePopup.querySelector('.popup__image');
-    const popupCaption = imagePopup.querySelector('.popup__caption');
-  
-    popupImage.src = url;
-    popupImage.alt = caption;
-    popupCaption.textContent = caption;
-  
-    openModal(imagePopup);
   };

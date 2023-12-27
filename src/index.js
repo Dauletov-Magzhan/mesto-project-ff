@@ -9,7 +9,7 @@
 // @todo: Вывести карточки на страницу
 import './pages/index.css';
 import { initialCards } from "./scripts/cards.js";
-import { createCard, deleteCard, likeCard, openImagePopup } from "./scripts/card.js";
+import { createCard, deleteCard, likeCard } from "./scripts/card.js";
 import { closeModal, openModal } from "./scripts/modal.js";
 
 
@@ -30,9 +30,9 @@ profileEditBtn.addEventListener('click', function () {
 });
 
 
-const ProfileForm = document.forms['edit-profile'];
-const nameInput = ProfileForm.elements.name;
-const jobInput = ProfileForm.elements.description;
+const profileForm = document.forms['edit-profile'];
+const nameInput = profileForm.elements.name;
+const jobInput = profileForm.elements.description;
 
 const displayNameElement = document.querySelector('.profile__title');
 const displayJobElement = document.querySelector('.profile__description');
@@ -49,7 +49,7 @@ function editProfile(evt) {
     closeModal(popupTypeEdit);
 };
 
-ProfileForm.addEventListener('submit', editProfile);
+profileForm.addEventListener('submit', editProfile);
 
 
 const profileAddBtn = document.querySelector('.profile__add-button');
@@ -89,3 +89,16 @@ function addNewCard(evt) {
 
 const cardForm = document.forms['new-place'];
 cardForm.addEventListener('submit', addNewCard );
+
+
+export function openImagePopup(url, caption) {
+    const imagePopup = document.querySelector('.popup_type_image');
+    const popupImage = imagePopup.querySelector('.popup__image');
+    const popupCaption = imagePopup.querySelector('.popup__caption');
+  
+    popupImage.src = url;
+    popupImage.alt = caption;
+    popupCaption.textContent = caption;
+  
+    openModal(imagePopup);
+  };
