@@ -1,6 +1,3 @@
-import { openModal } from "./modal.js";
-import { openImagePopup } from "../index.js";
-
 export function createCard(data, deleteCallback, likeCallback, openImageCallback) {
     const cardTemplate = document.querySelector('#card-template').content.querySelector('.places__item');
     const cardElement = cardTemplate.cloneNode(true);

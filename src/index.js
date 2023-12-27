@@ -91,7 +91,7 @@ const cardForm = document.forms['new-place'];
 cardForm.addEventListener('submit', addNewCard );
 
 
-export function openImagePopup(url, caption) {
+function openImagePopup(url, caption) {
     const imagePopup = document.querySelector('.popup_type_image');
     const popupImage = imagePopup.querySelector('.popup__image');
     const popupCaption = imagePopup.querySelector('.popup__caption');
