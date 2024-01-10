@@ -18,13 +18,13 @@
   border-bottom: 1px solid #F00;
 }
 
-.popup__input-error_active {
+.popup__error_visible {
   color: #F00;
-font-family: Inter;
-font-size: 12px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 @media screen and (max-width: 568px) {

@@ -26,6 +26,7 @@ const popupTypeEdit = document.querySelector('.popup_type_edit');
 profileEditBtn.addEventListener('click', function () {
     nameInput.value = displayNameElement.textContent;
     jobInput.value = displayJobElement.textContent;
+    clearValidation(profileForm, validationConfig)
     openModal(popupTypeEdit);
 });
 
@@ -55,6 +56,7 @@ profileForm.addEventListener('submit', editProfile);
 const profileAddBtn = document.querySelector('.profile__add-button');
 const popupTypeNewCard = document.querySelector('.popup_type_new-card');
 profileAddBtn.addEventListener('click', function () {
+    clearValidation(cardForm, validationConfig)
     openModal(popupTypeNewCard);
 });
 
@@ -105,12 +107,21 @@ function openImagePopup(url, caption) {
 
 
 // Валидация
+const validationConfig = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible'
+  }; 
+
 
 function showInputError(formElement, inputElement, errorMessage){
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.add('popup__input_type_error');
     errorElement.textContent = errorMessage;
-    errorElement.classList.add('popup__input-error_active');
+    errorElement.classList.add('popup__error_visible');
 };
 
 function hideInputError(formElement, inputElement){
@@ -122,7 +133,7 @@ function hideInputError(formElement, inputElement){
 
 function checkInputValidity(formElement, inputElement){
       if (inputElement.validity.patternMismatch) {
-        inputElement.setCustomValidity("Поля могут содержать только латинские и кириллические буквы, знаки дефиса и пробелы.");
+        inputElement.setCustomValidity(inputElement.dataset.errorMessage);
     } else {
         inputElement.setCustomValidity("");
     };
@@ -167,12 +178,20 @@ function hasInvalidInput(inputList){
     })
   }
   
-  function toggleButtonState(inputList, buttonElement){
+function toggleButtonState(inputList, buttonElement){
     if(hasInvalidInput(inputList)){
-      buttonElement.disabled = true;
-      buttonElement.classList.add('button_inactive')
+    buttonElement.classList.add('button_inactive')
     } else {
-      buttonElement.disabled = false;
       buttonElement.classList.remove('button_inactive')
     }
   }
+
+function clearValidation(profileForm, validationConfig) {
+    const inputList = Array.from(profileForm.querySelectorAll(validationConfig.inputSelector));
+    const buttonElement = profileForm.querySelector(validationConfig.submitButtonSelector);
+
+    toggleButtonState(inputList, buttonElement, validationConfig);
+    inputList.forEach((inputElement) => {
+        hideInputError(profileForm, inputElement, validationConfig)
+    });
+}
