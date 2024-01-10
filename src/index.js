@@ -121,11 +121,19 @@ function hideInputError(formElement, inputElement){
 };
 
 function checkInputValidity(formElement, inputElement){
+      if (inputElement.validity.patternMismatch) {
+        inputElement.setCustomValidity("Поля могут содержать только латинские и кириллические буквы, знаки дефиса и пробелы.");
+    } else {
+        inputElement.setCustomValidity("");
+    };
+
     if(!inputElement.validity.valid){
         showInputError(formElement, inputElement, inputElement.validationMessage);
     } else {
         hideInputError(formElement, inputElement);
     };
+
+
 };
 
 
@@ -161,8 +169,10 @@ function hasInvalidInput(inputList){
   
   function toggleButtonState(inputList, buttonElement){
     if(hasInvalidInput(inputList)){
+      buttonElement.disabled = true;
       buttonElement.classList.add('button_inactive')
     } else {
+      buttonElement.disabled = false;
       buttonElement.classList.remove('button_inactive')
     }
   }
