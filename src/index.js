@@ -12,6 +12,7 @@ import { initialCards } from "./scripts/cards.js";
 import { createCard, deleteCard, likeCard } from "./scripts/card.js";
 import { closeModal, openModal } from "./scripts/modal.js";
 import { clearValidation, enableValidation } from './scripts/validation.js';
+import { editProfileApi, getUser, initialCardsApi, addNewCardApi, loadProfileAndCards } from './scripts/api.js';
 
 
 const placesList = document.querySelector('.places__list');
@@ -27,12 +28,14 @@ const profileForm = document.forms['edit-profile'];
 const cardForm = document.forms['new-place'];
 const nameInput = profileForm.elements.name;
 const jobInput = profileForm.elements.description;
+const likesCount = document.querySelectorAll('.card__likes_count')
 
+let currentUser 
 
-initialCards.forEach(function (cardData) {
-    const card = createCard(cardData, deleteCard, likeCard, openImagePopup);
-    placesList.append(card);
-});
+// initialCards.forEach(function (cardData) {
+//     const card = createCard(cardData, deleteCard, likeCard, openImagePopup);
+//     placesList.append(card);
+// });
 
 profileEditBtn.addEventListener('click', function () {
     nameInput.value = displayNameElement.textContent;
@@ -46,9 +49,11 @@ function editProfile(evt) {
 
     const newName = nameInput.value;
     const newJob = jobInput.value;
-
+    
     displayNameElement.textContent = newName;
     displayJobElement.textContent = newJob;
+
+    editProfileApi(newName, newJob)
     
     closeModal(popupTypeEdit);
 };
@@ -76,7 +81,9 @@ function addNewCard(evt) {
         name: cardNameInput.value,
         link: cardUrlInput.value
     };
-    const newCard = createCard(newCardData, deleteCard, likeCard, openImagePopup);
+    
+    const newCard = createCard(newCardData, deleteCard, likeCard, openImagePopup, currentUser);
+    addNewCardApi(newCardData)
 
     placesList.prepend(newCard);
     closeModal(popupTypeNewCard);
@@ -100,43 +107,22 @@ function openImagePopup(url, caption) {
 //Валидация
 enableValidation();
 
+//API
+loadProfileAndCards()
+    .then(([user, initialCards]) => {
+        currentUser = user._id
+        displayNameElement.textContent = user.name;
+        displayJobElement.textContent = user.about;
+        profileImage.style.backgroundImage = `url(${user.avatar})`;
 
-
-// Интеграция с API
-
-const config = {
-    baseUrl: 'https://nomoreparties.co/v1/wff-cohort-4',
-    headers: {
-      authorization: '5127d628-3fb9-4d4d-aa00-4a0279b3c5ac',
-      'Content-Type': 'application/json'
-    }
-  }
-  
-  export const getInitialCards = () => {
-      return fetch('', {})
-      // ...
-  }
-
-fetch('https://nomoreparties.co/v1/wff-cohort-4/users/me', {
-    headers: {
-        authorization: '5127d628-3fb9-4d4d-aa00-4a0279b3c5ac'
-    }
+        return initialCards;
     })
-    .then(res => res.json())
-    .then((data) => {
-    displayNameElement.textContent = data.name
-    displayJobElement.textContent = data.about
-    profileImage.src = data.avatar
-})
-    .catch((err) => console.log(err))
-
-
-fetch('https://nomoreparties.co/v1/wff-cohort-4/users/me', {
-    headers: {
-        authorization: '5127d628-3fb9-4d4d-aa00-4a0279b3c5ac'
-    }
-})
-    .then(res => res.json())
-    .then((data) => {
-        
+    .then((cardsData) => {
+        cardsData.forEach(function (data) {
+            const card = createCard(data, deleteCard, likeCard, openImagePopup, currentUser);
+            placesList.append(card);
+        });
     })
+    .catch((err) => {
+        console.log(err);
+});

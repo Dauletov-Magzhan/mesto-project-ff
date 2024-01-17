@@ -1,4 +1,4 @@
-export function createCard(data, deleteCallback, likeCallback, openImageCallback) {
+export function createCard(data, deleteCallback, likeCallback, openImageCallback, currentUser) {
     const cardTemplate = document.querySelector('#card-template').content.querySelector('.places__item');
     const cardElement = cardTemplate.cloneNode(true);
     
@@ -7,8 +7,14 @@ export function createCard(data, deleteCallback, likeCallback, openImageCallback
     cardElement.querySelector('.card__title').textContent = data.name;
   
     const deleteButton = cardElement.querySelector('.card__delete-button');
-    deleteButton.addEventListener('click', deleteCallback);
-  
+
+    if (data.owner._id === currentUser._id) {
+      deleteButton.addEventListener('click', deleteCallback);
+    }
+    else {
+        deleteButton.style.display = 'none';
+    }
+
     const likeButton = cardElement.querySelector('.card__like-button');
     likeButton.addEventListener('click', likeCallback);
   
