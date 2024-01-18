@@ -69,6 +69,6 @@ export const addNewCardApi = (newCardData) => {
     .catch((err) => console.log(`Ошибка: ${err}`))
   }
 
-export function loadProfileAndCards() {
-    return Promise.all([getUser(), initialCardsApi()])
+export async function loadProfileAndCards() {
+    return await Promise.all([getUser(), initialCardsApi()])
 }

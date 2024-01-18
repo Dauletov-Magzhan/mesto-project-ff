@@ -29,8 +29,8 @@ const cardForm = document.forms['new-place'];
 const nameInput = profileForm.elements.name;
 const jobInput = profileForm.elements.description;
 const likesCount = document.querySelectorAll('.card__likes_count')
-
 let currentUser 
+let ownerId
 
 // initialCards.forEach(function (cardData) {
 //     const card = createCard(cardData, deleteCard, likeCard, openImagePopup);
@@ -79,7 +79,10 @@ function addNewCard(evt) {
     const cardUrlInput = cardForm.querySelector('.popup__input_type_url'); 
     const newCardData = {
         name: cardNameInput.value,
-        link: cardUrlInput.value
+        link: cardUrlInput.value,
+        owner: {
+            _id: ownerId
+        }
     };
     
     const newCard = createCard(newCardData, deleteCard, likeCard, openImagePopup, currentUser);
@@ -115,13 +118,13 @@ loadProfileAndCards()
         displayJobElement.textContent = user.about;
         profileImage.style.backgroundImage = `url(${user.avatar})`;
 
-        return initialCards;
-    })
-    .then((cardsData) => {
-        cardsData.forEach(function (data) {
+        initialCards.forEach(function (data) {
             const card = createCard(data, deleteCard, likeCard, openImagePopup, currentUser);
+            ownerId = data.owner._id
             placesList.append(card);
         });
+
+        return initialCards;
     })
     .catch((err) => {
         console.log(err);
