@@ -69,6 +69,19 @@ export const addNewCardApi = (newCardData) => {
     .catch((err) => console.log(`Ошибка: ${err}`))
   }
 
-export async function loadProfileAndCards() {
-    return await Promise.all([getUser(), initialCardsApi()])
+export function loadProfileAndCards() {
+    return Promise.all([getUser(), initialCardsApi()])
 }
+
+export function deleteCardApi(cardId) {
+    return fetch(`${config.baseUrl}/cards/${cardId}`, {
+      method: 'DELETE',
+      headers: config.headers,
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(res.status);
+      })
+  }

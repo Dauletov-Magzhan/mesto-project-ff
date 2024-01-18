@@ -12,7 +12,7 @@ import { initialCards } from "./scripts/cards.js";
 import { createCard, deleteCard, likeCard } from "./scripts/card.js";
 import { closeModal, openModal } from "./scripts/modal.js";
 import { clearValidation, enableValidation } from './scripts/validation.js';
-import { editProfileApi, getUser, initialCardsApi, addNewCardApi, loadProfileAndCards } from './scripts/api.js';
+import { editProfileApi, getUser, initialCardsApi, addNewCardApi, loadProfileAndCards, deleteCardApi } from './scripts/api.js';
 
 
 const placesList = document.querySelector('.places__list');
@@ -28,10 +28,10 @@ const profileForm = document.forms['edit-profile'];
 const cardForm = document.forms['new-place'];
 const nameInput = profileForm.elements.name;
 const jobInput = profileForm.elements.description;
-const likesCount = document.querySelectorAll('.card__likes_count')
+
 let currentUser 
 let ownerId
-
+let cardId
 // initialCards.forEach(function (cardData) {
 //     const card = createCard(cardData, deleteCard, likeCard, openImagePopup);
 //     placesList.append(card);
@@ -82,9 +82,10 @@ function addNewCard(evt) {
         link: cardUrlInput.value,
         owner: {
             _id: ownerId
-        }
+        },
+        _id: cardId
     };
-    
+
     const newCard = createCard(newCardData, deleteCard, likeCard, openImagePopup, currentUser);
     addNewCardApi(newCardData)
 
@@ -121,6 +122,9 @@ loadProfileAndCards()
         initialCards.forEach(function (data) {
             const card = createCard(data, deleteCard, likeCard, openImagePopup, currentUser);
             ownerId = data.owner._id
+            cardId = data._id
+            const likesCount = card.querySelector('.card__likes_count')
+            likesCount.textContent = data.likes.length
             placesList.append(card);
         });
 

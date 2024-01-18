@@ -1,3 +1,5 @@
+import { deleteCardApi } from "./api";
+
 export function createCard(data, deleteCallback, likeCallback, openImageCallback, currentUser) {
   const cardTemplate = document.querySelector('#card-template').content.querySelector('.places__item');
   const cardElement = cardTemplate.cloneNode(true);
@@ -9,7 +11,9 @@ export function createCard(data, deleteCallback, likeCallback, openImageCallback
   const deleteButton = cardElement.querySelector('.card__delete-button');
 
   if (data.owner._id === currentUser) {
-    deleteButton.addEventListener('click', deleteCallback);
+    deleteButton.addEventListener('click', (evt) => {
+      deleteCallback(evt, data._id)
+    });
   }
   else {
       deleteButton.style.display = 'none';
@@ -30,7 +34,8 @@ export function likeCard(evt) {
   evt.target.classList.toggle('card__like-button_is-active');
 };
 
-export function deleteCard(evt) { 
-  const placesItem = evt.target.closest('.places__item');
-  placesItem.remove();
-};
+export function deleteCard(evt, cardId) { 
+  deleteCardApi(cardId)
+  .then(() => evt.target.closest('.places__item').remove())
+  .catch((err) => console.log(err));
+}
