@@ -85,3 +85,35 @@ export function deleteCardApi(cardId) {
         return Promise.reject(res.status);
       })
   }
+
+export function putLikeApi(cardId){
+    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+        method: 'PUT',
+        headers: config.headers,
+    })
+    .then((res) => {
+        if(res.ok){
+            return res.json()
+        }
+        return Promise.reject(res.status)
+    })
+    .then((res) => {
+        return res
+    }) 
+}
+
+export function deleteLikeApi(cardId){
+    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+        method: 'DELETE',
+        headers: config.headers,
+    })
+    .then((res) => {
+        if(res.ok){
+            return res.json()
+        }
+        return Promise.reject(res.status)
+    })
+    .then((res) => {
+        return res
+    })
+}
