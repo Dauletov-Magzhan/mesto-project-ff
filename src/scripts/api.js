@@ -1,4 +1,3 @@
-// Интеграция с API
 const config = {
     baseUrl: 'https://nomoreparties.co/v1/wff-cohort-4',
     headers: {
@@ -13,11 +12,11 @@ export const getUser = () => {
     })
         .then((res) => {
             if(res.ok){
-                return res.json()
+                return res.json();
             }
-            return Promise.reject(res.status)
-        })
-}
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+};
 
 export const initialCardsApi = () => {
     return fetch(`${config.baseUrl}/cards`, {
@@ -25,11 +24,11 @@ export const initialCardsApi = () => {
     })
         .then((res) => {
             if(res.ok){
-                return res.json()
+                return res.json();
             }
-            return Promise.reject(res.status)
-        })
-}
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+};
 
 export const editProfileApi = (name, about) => {
     return fetch(`${config.baseUrl}/users/me`, {
@@ -42,14 +41,14 @@ export const editProfileApi = (name, about) => {
     })
     .then((res) => {
         if(res.ok){
-            return res.json()
+            return res.json();
         }
-        return Promise.reject(res.status)
+        return Promise.reject(`Ошибка: ${res.status}`);
     })
     .catch((err) => {
-        console.log(err)
-    })
-}
+        console.log(`Ошибка: ${err}`);
+    });
+};
 
 export const addNewCardApi = (newCardData) => {
     return fetch(`${config.baseUrl}/cards`, {
@@ -59,19 +58,19 @@ export const addNewCardApi = (newCardData) => {
     })
     .then((res) => {
         if(res.ok){
-            return res.json()
+            return res.json();
         }
-        return Promise.reject(res.status)
+        return Promise.reject(`Ошибка: ${res.status}`);
     })
     .then((res) => {
-        return res
+        return res;
     })
-    .catch((err) => console.log(`Ошибка: ${err}`))
-  }
+    .catch((err) => console.log(`Ошибка: ${err}`));
+};
 
 export function loadProfileAndCards() {
-    return Promise.all([getUser(), initialCardsApi()])
-}
+    return Promise.all([getUser(), initialCardsApi()]);
+};
 
 export function deleteCardApi(cardId) {
     return fetch(`${config.baseUrl}/cards/${cardId}`, {
@@ -82,9 +81,9 @@ export function deleteCardApi(cardId) {
         if (res.ok) {
           return res.json();
         }
-        return Promise.reject(res.status);
-      })
-  }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      });
+};
 
 export function putLikeApi(cardId){
     return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
@@ -93,14 +92,14 @@ export function putLikeApi(cardId){
     })
     .then((res) => {
         if(res.ok){
-            return res.json()
+            return res.json();
         }
-        return Promise.reject(res.status)
+        return Promise.reject(`Ошибка: ${res.status}`);
     })
     .then((res) => {
-        return res
-    }) 
-}
+        return res;
+    });
+};
 
 export function deleteLikeApi(cardId){
     return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
@@ -109,11 +108,30 @@ export function deleteLikeApi(cardId){
     })
     .then((res) => {
         if(res.ok){
-            return res.json()
+            return res.json();
         }
-        return Promise.reject(res.status)
+        return Promise.reject(`Ошибка: ${res.status}`);
     })
     .then((res) => {
-        return res
+        return res;
+    });
+};
+
+export const AddNewAvatar = (avatarLink) => {
+    return fetch(`${config.baseUrl}/users/me/avatar`, {
+        method: "PATCH",
+        headers: config.headers,
+        body: JSON.stringify({
+            avatar: avatarLink,
+        }),
     })
-}
+    .then((res) => {
+        if(res.ok){
+            return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .then((res) => {
+        return res;
+    });
+};

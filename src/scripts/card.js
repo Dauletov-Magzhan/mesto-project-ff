@@ -12,16 +12,16 @@ export function createCard(data, deleteCallback, likeCallback, openImageCallback
 
   if (data.owner._id === currentUser) {
     deleteButton.addEventListener('click', (evt) => {
-      deleteCallback(evt, data._id)
+      deleteCallback(evt, data._id);
     });
   }
   else {
       deleteButton.style.display = 'none';
-  }
+  };
 
   const likeButton = cardElement.querySelector('.card__like-button');
   likeButton.addEventListener('click', (evt) => {
-    likeCallback(evt, data._id, cardElement)
+    likeCallback(evt, data._id, cardElement);
   });
 
 
@@ -31,10 +31,10 @@ export function createCard(data, deleteCallback, likeCallback, openImageCallback
         likeButton.classList.add('card__like-button_is-active');
     } else {
         likeButton.classList.remove('card__like-button_is-active');
-    }
-}
+    };
+};
 
-showCurrentLike()
+showCurrentLike();
   
   const cardImage = cardElement.querySelector('.card__image');
   cardImage.addEventListener('click', function () {
@@ -45,7 +45,7 @@ showCurrentLike()
 };
 
 export function likeCard(evt, cardId, cardElement) {
-  const likesCount = cardElement.querySelector('.card__likes_count')
+  const likesCount = cardElement.querySelector('.card__likes_count');
   const isLiked = evt.target.classList.contains("card__like-button_is-active");
   if (isLiked) {
       deleteLikeApi(cardId)
@@ -54,7 +54,7 @@ export function likeCard(evt, cardId, cardElement) {
               likesCount.textContent = card.likes.length;
           })
           .catch((err) => {
-              console.log(err);
+              console.log(`Ошибка: ${err}`);
           });
   } else {
       putLikeApi(cardId)
@@ -63,13 +63,13 @@ export function likeCard(evt, cardId, cardElement) {
               likesCount.textContent = card.likes.length;
           })
           .catch((err) => {
-              console.log(err);
+              console.log(`Ошибка: ${err}`);
           });
-  }
-}
+  };
+};
 
 export function deleteCard(evt, cardId) { 
   deleteCardApi(cardId)
   .then(() => evt.target.closest('.places__item').remove())
-  .catch((err) => console.log(err));
-}
+  .catch((err) => console.log(`Ошибка: ${err}`));
+};
