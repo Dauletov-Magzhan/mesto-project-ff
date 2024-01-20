@@ -68,11 +68,11 @@ export const addNewCardApi = (newCardData) => {
     .catch((err) => console.log(`Ошибка: ${err}`));
 };
 
-export function loadProfileAndCards() {
+export const loadProfileAndCards =() => {
     return Promise.all([getUser(), initialCardsApi()]);
 };
 
-export function deleteCardApi(cardId) {
+export const deleteCardApi = (cardId) => {
     return fetch(`${config.baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
       headers: config.headers,
@@ -85,7 +85,7 @@ export function deleteCardApi(cardId) {
       });
 };
 
-export function putLikeApi(cardId){
+export const putLikeApi = (cardId) => {
     return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
         method: 'PUT',
         headers: config.headers,
@@ -101,7 +101,7 @@ export function putLikeApi(cardId){
     });
 };
 
-export function deleteLikeApi(cardId){
+export const deleteLikeApi = (cardId) => {
     return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
         method: 'DELETE',
         headers: config.headers,
