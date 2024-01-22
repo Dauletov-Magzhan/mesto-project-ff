@@ -1,6 +1,6 @@
 import { deleteCardApi, putLikeApi, deleteLikeApi } from "./api";
 
-export function createCard(data, deleteCallback, likeCallback, openImageCallback, currentUser) {
+export function createCard(data, deleteCallback, likeCallback, openImageCallback, currentUserId) {
   const cardTemplate = document.querySelector('#card-template').content.querySelector('.places__item');
   const cardElement = cardTemplate.cloneNode(true);
   
@@ -10,7 +10,10 @@ export function createCard(data, deleteCallback, likeCallback, openImageCallback
 
   const deleteButton = cardElement.querySelector('.card__delete-button');
 
-  if (data.owner._id === currentUser) {
+  const likesCount = cardElement.querySelector('.card__likes_count');
+  likesCount.textContent = data.likes.length;
+
+  if (data.owner._id === currentUserId) {
     deleteButton.addEventListener('click', (evt) => {
       deleteCallback(evt, data._id);
     });
@@ -21,20 +24,18 @@ export function createCard(data, deleteCallback, likeCallback, openImageCallback
 
   const likeButton = cardElement.querySelector('.card__like-button');
   likeButton.addEventListener('click', (evt) => {
-    likeCallback(evt, data._id, cardElement);
+    likeCallback(evt, data, cardElement);
   });
 
 
   function showCurrentLike() {
-    const likesArray = Array.from(data.likes || []);
-    if (likesArray.some(like => like._id === currentUser)) {
+    const likesArray = data.likes;
+    if (likesArray.some(like => like._id === currentUserId)) {
         likeButton.classList.add('card__like-button_is-active');
-    } else {
-        likeButton.classList.remove('card__like-button_is-active');
     };
 };
 
-showCurrentLike();
+  showCurrentLike();
   
   const cardImage = cardElement.querySelector('.card__image');
   cardImage.addEventListener('click', function () {
@@ -44,28 +45,16 @@ showCurrentLike();
   return cardElement;
 };
 
-export function likeCard(evt, cardId, cardElement) {
+export function likeCard(evt, data, cardElement) {
   const likesCount = cardElement.querySelector('.card__likes_count');
   const isLiked = evt.target.classList.contains("card__like-button_is-active");
-  if (isLiked) {
-      deleteLikeApi(cardId)
-          .then((card) => {
-              evt.target.classList.remove("card__like-button_is-active");
-              likesCount.textContent = card.likes.length;
-          })
-          .catch((err) => {
-              console.log(`Ошибка: ${err}`);
-          });
-  } else {
-      putLikeApi(cardId)
-          .then((card) => {
-              evt.target.classList.add("card__like-button_is-active");
-              likesCount.textContent = card.likes.length;
-          })
-          .catch((err) => {
-              console.log(`Ошибка: ${err}`);
-          });
-  };
+  const likeMethod = isLiked ? deleteLikeApi : putLikeApi;
+  likeMethod(data._id) 
+    .then((card) => {
+      evt.target.classList.toggle("card__like-button_is-active"); 
+      likesCount.textContent = card.likes.length;
+    })
+    .catch(err => console.log(err));
 };
 
 export function deleteCard(evt, cardId) { 
