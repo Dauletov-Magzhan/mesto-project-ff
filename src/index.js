@@ -116,12 +116,12 @@ function addNewCard(evt) {
   
     const cardNameInput = cardForm.querySelector('.popup__input_type_card-name');
     const cardUrlInput = cardForm.querySelector('.popup__input_type_url'); 
-    const CardData = {
+    const cardData = {
         name: cardNameInput.value,
         link: cardUrlInput.value
     };
 
-    addNewCardApi(CardData)
+    addNewCardApi(cardData)
         .then((data) => {
             const newCard = createCard(data, deleteCard, likeCard, openImagePopup, currentUserId);
             placesList.prepend(newCard);

@@ -40,9 +40,6 @@ export const editProfileApi = (name, about) => {
           })
     })
     .then((res) => handleResponse(res))
-    .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-    });
 };
 
 export const addNewCardApi = (newCardData) => {
@@ -72,9 +69,6 @@ export const putLikeApi = (cardId) => {
         headers: config.headers,
     })
     .then((res) => handleResponse(res))
-    .then((res) => {
-        return res;
-    });
 };
 
 export const deleteLikeApi = (cardId) => {
@@ -83,9 +77,6 @@ export const deleteLikeApi = (cardId) => {
         headers: config.headers,
     })
     .then((res) => handleResponse(res))
-    .then((res) => {
-        return res;
-    });
 };
 
 export const addNewAvatar = (avatarLink) => {
@@ -97,7 +88,4 @@ export const addNewAvatar = (avatarLink) => {
         }),
     })
     .then((res) => handleResponse(res))
-    .then((res) => {
-        return res;
-    });
 };
